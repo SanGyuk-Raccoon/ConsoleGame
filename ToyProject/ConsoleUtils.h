@@ -11,5 +11,5 @@ enum class ColorType {
 void SetConsoleOption(const char* title, int width, int height);
 void SetCursor(int x, int y);
 void SetCursorVisible(bool visiable);
-void SetCursorColor(ColorType font_color = ColorType::Gray, ColorType background_color = ColorType::Black);
+void SetFontColor(ColorType font_color = ColorType::Gray, ColorType background_color = ColorType::Black);
 void SetCursorTest();

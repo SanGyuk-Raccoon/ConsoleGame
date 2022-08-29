@@ -30,7 +30,7 @@ void SetCursorVisible(bool visiable) {
 	console_cursor.dwSize = 1;
 	SetConsoleCursorInfo(handle, &console_cursor);
 }
-void SetCursorColor(ColorType font_color, ColorType background_color) {
+void SetFontColor(ColorType font_color, ColorType background_color) {
 	static HANDLE handle = NULL;
 
 	if (handle == NULL) {
@@ -42,11 +42,11 @@ void SetCursorColor(ColorType font_color, ColorType background_color) {
 void SetCursorTest() {
 	SetCursorVisible(false);
 	for (int x = 0; x < 10; x++) {
-		SetCursorColor((ColorType)x, ColorType::White);
+		SetFontColor((ColorType)x, ColorType::White);
 		for (int y = 0; y < 10; y++) {
 			SetCursor(x, y);
 			printf("%d", y);
 		}
 	}
-	SetCursorColor();
+	SetFontColor();
 }
