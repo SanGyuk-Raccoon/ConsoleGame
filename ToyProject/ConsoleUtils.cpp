@@ -1,5 +1,4 @@
 #include "ConsoleUtils.h"
-#include <assert.h>
 
 void SetConsoleOption(const char* title, int width, int height) {
 	// ToDo
@@ -38,4 +37,16 @@ void SetCursorColor(ColorType font_color, ColorType background_color) {
 		handle = GetStdHandle(STD_OUTPUT_HANDLE);
 	}
 	SetConsoleTextAttribute(handle, (int)font_color | (int)background_color << 4);
+}
+
+void SetCursorTest() {
+	SetCursorVisible(false);
+	for (int x = 0; x < 10; x++) {
+		SetCursorColor((ColorType)x, ColorType::White);
+		for (int y = 0; y < 10; y++) {
+			SetCursor(x, y);
+			printf("%d", y);
+		}
+	}
+	SetCursorColor();
 }
