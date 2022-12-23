@@ -1,6 +1,5 @@
-#include <stdio.h>
-
-int main() {
-	printf("DesignPattern Project");
-	return 0;
-}
+/* 
+* 디자인패턴 학습용 프로젝트
+* 00. Basic
+* 01. Template Method (진행 중..)
+*/
