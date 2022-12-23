@@ -1,4 +1,6 @@
+#include <stdio.h>
+
 int main() {
-	int a = 1;
-	return a;
+	printf("This is DesignPattern Project");
+	return 0;
 }
