@@ -235,7 +235,7 @@ int main() {
 			장점 : 위의 문제점을 해결 가능
 			단점 : 성능 저하
 */
-#if 1
+#if 0
 class Parent
 {
 public:
@@ -276,6 +276,67 @@ int main() {
 	Parent* p = new Child();
 
 	p->print();
+
+	delete p;
+}
+#endif
+
+/*
+	순수 가상함수
+	추상 클래스
+	인터페이스 
+*/
+#if 1
+class Parent
+{
+public:
+	virtual ~Parent() {}
+
+	virtual void PureVirtualFunc() = 0;
+	/* 
+	순수 가상함수 : 위처럼 = 0; 으로 끝나는 함수
+
+	구현없이 선언만 되어있기 때문에 이 상태로는 호출해서 사용할 수 없다.
+
+	사용하려는 곳에서 구현을 해주어야한다.
+	*/
+};
+
+/*
+	순수 가상함수가 하나라도 포함되어 있으면 추상 클래스라고 한다.
+
+	추상 클래스/인터페이스가 혼용되는 경우도 있다고 하는데,
+	
+	인터페이스 : 멤버 변수 없이 순수 가상함수만 선언.
+	추상 클래스 : 순수 가상함수 외에 다른 정보도 포함.
+
+	순수 가상함수가 구현되지 않으면, 객체로 생성할 수 없다.
+	그러나, 포인터로는 사용 가능.
+*/
+
+class Child : public Parent
+{
+public:
+	virtual void PureVirtualFunc() {
+		printf("PureVirtualFunc() in Child\n");
+	}
+};
+
+int main() {
+	/* 
+	다음은 error이다.
+	Parent parent;
+
+	순수 가상함수를 구현하지 않음.
+	*/
+	
+	
+	Parent* p = new Child();
+	/*
+	객체 생성은 안되지만, 포인터로 사용은 가능하다.
+	*/
+
+	p->PureVirtualFunc();
 
 	delete p;
 }
