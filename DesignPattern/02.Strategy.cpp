@@ -39,7 +39,7 @@ int main() {
 
 
 
-#if 1
+#if 0
 /*
 	2.	변하는 부분(Validation)을 클래스로 구현하자.
 */
