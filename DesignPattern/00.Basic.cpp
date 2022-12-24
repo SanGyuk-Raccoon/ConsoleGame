@@ -286,7 +286,7 @@ int main() {
 	추상 클래스
 	인터페이스 
 */
-#if 1
+#if 0
 class Parent
 {
 public:
