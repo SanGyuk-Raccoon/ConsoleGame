@@ -1,6 +1,6 @@
 #include <stdio.h>
 
 int main() {
-	printf("This is DesignPattern Project");
+	printf("This is Interpreter Project");
 	return 0;
 }
