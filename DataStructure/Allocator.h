@@ -15,15 +15,15 @@
 
 template<typename T>
 class DefaultAllocator {
-	T* allocate(std::size_t size) {
+public:
+	T* allocate(size_t size) {
 		T* p = new T[size];
-		static_assert(p != nullptr);
 		Print_Alloc_Log(p, size);
 		return p;
 	}
 
-	void deallocate(T* p, std::size_t size) {
-		Print_Dealloc_Log(p, size)
+	void deallocate(T* p, size_t size) {
+		Print_Dealloc_Log(p, size);
 		delete[] p;
 	}
 };
