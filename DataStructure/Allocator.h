@@ -5,8 +5,8 @@
 
 #define _DebugLog (1);
 #if _DebugLog
-#define Print_Alloc_Log(p, size) printf("Alloc Log : \n\tAddr : %p\n\tSize : %d", p, size)
-#define Print_Dealloc_Log(p, size) printf("Dealloc Log : \n\tAddr : %p\n\tSize : %d", p, size)
+#define Print_Alloc_Log(p, size) printf("Alloc Log : \n\tAddr : %p\n\tSize : %d\n", p, size)
+#define Print_Dealloc_Log(p, size) printf("Dealloc Log : \n\tAddr : %p\n\tSize : %d\n", p, size)
 #else
 #define Print_Alloc_Log(p, size)
 #define Print_Dealloc_Log(p, size)

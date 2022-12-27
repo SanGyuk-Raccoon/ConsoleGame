@@ -1,6 +1,7 @@
 #pragma once
-#include "LogManager.h"
 #include "Queue.h"
+#include "LogManager.h"
+#include "TestBase.h"
 #include <queue>
 
 class QueueTest {
@@ -19,14 +20,19 @@ private:
 
 public:
 	static bool test_Push_int() {
-		std::queue<int> std_queue;
-		Queue<int> user_queue;
+		{
+			std::queue<int> std_queue;
+			Queue<int> user_queue;
 
-		for (int i = 0; i < 10; i++) {
-			std_queue.push(i);
-			user_queue.push(i);
+			
+			for (int i = 0; i < TEST_CASE_NUM; i++) {
+				int value = RandomGenerator::generateRandomInt(MIN_INT32, MAX_INT32);
+				std_queue.push(value);
+				user_queue.push(value);
+			}
 		}
 
-		return compareQueue(std_queue, user_queue);
+		printf("Queue Test - Push(int) : SUCCESS\n");
+		return true;
 	}
 };

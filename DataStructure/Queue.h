@@ -21,6 +21,9 @@ public:
 		_tail_idx(0) {
 		_container = _allocator.allocate(32);
 	}
+	~Queue() {
+		_allocator.deallocate(_container, _max_size);
+	}
 
 	void push(T& value) {
 		_container[_tail_idx] = value;
