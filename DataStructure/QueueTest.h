@@ -24,7 +24,6 @@ public:
 			std::queue<int> std_queue;
 			Queue<int> user_queue;
 
-			
 			for (int i = 0; i < TEST_CASE_NUM; i++) {
 				int value = RandomGenerator::generateRandomInt(MIN_INT32, MAX_INT32);
 				std_queue.push(value);
