@@ -9,6 +9,8 @@ public:
 	}
 
 	static void testSinglyLinkedList() {
-		SinglyLinkedListTest::test_push_front_Int();
+		SinglyLinkedListTest::push_front_int();
+		SinglyLinkedListTest::push_back_int();
+		SinglyLinkedListTest::clear_int();
 	}
 };

@@ -12,7 +12,7 @@ private:
 		int user_size = user_list.size();
 
 		if (std_size != user_size) {
-			return false;
+			ASSERT_MSG(false, "Compare Length Error in SinglyLinkedListTest. (std_size:%d, user_size:%d)\n", std_size, user_size);
 		}
 
 		typename std::list<T>::iterator std_iter = std_list.begin();
@@ -20,25 +20,72 @@ private:
 				
 		for (int i = 0; i < user_size; i++) {
 			if (*std_iter != *user_iter) {
-				return false;
+				ASSERT_MSG(false, "Compare Value Error in SinglyLinkedListTest.\n");
 			}
 			++std_iter, ++user_iter;
 		}
+
+		if (user_size > 0) {
+			ASSERT_MSG(user_list.front() == std_list.front(), "front() Error in SinglyLinkedListTest.\n");
+			ASSERT_MSG(user_list.back() == std_list.back(), "back() Error in SinglyLinkedListTest.\n");
+		}
+		
 		return true;
 	}
 
 public:
-	static void test_push_front_Int() {
+	static void push_front_int() {
+		printf("SinglyLinkedListTest::push_front_int() Start\n");
 		SinglyLinkedList<int> user_list;
 		std::list<int> std_list;
-
+		
 		for (int i = 0; i < TEST_CASE_NUM; i++) {
 			int value = RandomGenerator::generateRandomInt(MIN_INT32, MAX_INT32);
 			user_list.push_front(value);
 			std_list.push_front(value);
 			
-			ASSERT_MSG(compareList(user_list, std_list), "Error in SinglyLinkedListTest::test_push_front_Int()\n");
+			compareList(user_list, std_list);
+		}
+		printf("SinglyLinkedListTest::push_front_int() PASS!\n");
+	}
+
+	static void push_back_int() {
+		SinglyLinkedList<int> user_list;
+		std::list<int> std_list;
+
+		for (int i = 0; i < TEST_CASE_NUM; i++) {
+			int value = RandomGenerator::generateRandomInt(MIN_INT32, MAX_INT32);
+			user_list.push_back(value);
+			std_list.push_back(value);
+
+			compareList(user_list, std_list);
 		}
 	}
+
+	static void clear_int() {
+		SinglyLinkedList<int> user_list;
+		std::list<int> std_list;
+
+		for (int i = 0; i < TEST_CASE_NUM/10; i++) {
+			for (int j = 0; j < i; j++) {
+				int value = RandomGenerator::generateRandomInt(MIN_INT32, MAX_INT32);
+				if (j & 1) {
+					user_list.push_front(value);
+					std_list.push_front(value);
+				}
+				else {
+					user_list.push_back(value);
+					std_list.push_back(value);
+				}
+
+				compareList(user_list, std_list);
+			}
+			user_list.clear();
+			std_list.clear();
+
+			compareList(user_list, std_list);
+		}
+	}
+	
 };
 

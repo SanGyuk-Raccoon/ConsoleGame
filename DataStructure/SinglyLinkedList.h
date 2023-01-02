@@ -29,6 +29,11 @@ public:
 		clear();
 	}
 
+	T& front() {
+		ASSERT_MSG(_head != nullptr, "List is Empty\n");
+		return _head->value;
+	}
+
 	void push_front(T& value) {
 		Node* new_node = _allocator.allocate(1);
 		new_node->value = value;
@@ -43,6 +48,11 @@ public:
 		_size++;
 	}
 
+	T& back() {
+		ASSERT_MSG(_tail != nullptr, "List is Empty\n");
+		return _tail->value;
+	}
+
 	void push_back(T& value) {	
 		Node* new_node = _allocator.allocate(1);
 		new_node->value = value;
@@ -54,11 +64,20 @@ public:
 			_tail->next = new_node;
 			_tail = new_node;
 		}
+		_size++;
 	}
 
 	size_t size() { return _size; }
 
-	void clear() {}
+	void clear() {
+		while (_head != nullptr) {
+			Node* tmp = _head;
+			_head = _head->next;
+			_allocator.deallocate(tmp, 1);
+		}
+		_head = _tail = nullptr;
+		_size = 0;
+	}
 
 	class Iterator {
 	private:
