@@ -12,5 +12,6 @@ public:
 		SinglyLinkedListTest::push_front_int();
 		SinglyLinkedListTest::push_back_int();
 		SinglyLinkedListTest::clear_int();
+		SinglyLinkedListTest::push_front_ClassPointer();
 	}
 };

@@ -35,7 +35,7 @@ private:
 
 public:
 	static void push_front_int() {
-		printf("SinglyLinkedListTest::push_front_int() Start\n");
+		TEST_LOGGER("SinglyLinkedListTest::push_front_int()");
 		SinglyLinkedList<int> user_list;
 		std::list<int> std_list;
 		
@@ -46,10 +46,11 @@ public:
 			
 			compareList(user_list, std_list);
 		}
-		printf("SinglyLinkedListTest::push_front_int() PASS!\n");
 	}
 
 	static void push_back_int() {
+		TEST_LOGGER("SinglyLinkedListTest::push_front_int()");
+
 		SinglyLinkedList<int> user_list;
 		std::list<int> std_list;
 
@@ -63,6 +64,8 @@ public:
 	}
 
 	static void clear_int() {
+		TEST_LOGGER("SinglyLinkedListTest::push_front_int()");
+
 		SinglyLinkedList<int> user_list;
 		std::list<int> std_list;
 
@@ -87,5 +90,20 @@ public:
 		}
 	}
 	
+	static void push_front_ClassPointer() {
+		TEST_LOGGER("SinglyLinkedListTest::push_front_ClassPointer()");
+
+		SinglyLinkedList<TestClass*> user_list;
+		std::list<TestClass*> std_list;
+
+		for (int i = 0; i < TEST_CASE_NUM; i++) {
+			int value = RandomGenerator::generateRandomInt(MIN_INT32, MAX_INT32);
+			TestClass* test_class = new TestClass(value);
+			user_list.push_front(test_class);
+			std_list.push_front(test_class);
+
+			compareList(user_list, std_list);
+		}
+	}
 };
 
