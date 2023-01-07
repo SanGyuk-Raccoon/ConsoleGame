@@ -11,6 +11,7 @@ public:
 	static void testSinglyLinkedList() {
 		SinglyLinkedListTest::push_front_int();
 		SinglyLinkedListTest::push_back_int();
+		SinglyLinkedListTest::pop_front_int();
 		SinglyLinkedListTest::clear_int();
 		SinglyLinkedListTest::push_front_ClassPointer();
 	}

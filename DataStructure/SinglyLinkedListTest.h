@@ -7,30 +7,30 @@
 class SinglyLinkedListTest {
 private:
 	template<typename T>
-	static bool compareList(SinglyLinkedList<T>& user_list, std::list<T>& std_list) {
-		int std_size = std_list.size();
-		int user_size = user_list.size();
-
-		if (std_size != user_size) {
-			ASSERT_MSG(false, "Compare Length Error in SinglyLinkedListTest. (std_size:%d, user_size:%d)\n", std_size, user_size);
+	static void compareList(SinglyLinkedList<T>& user_list, std::list<T>& std_list) {
+		// Compare Size
+		{
+			int std_size = std_list.size();
+			int user_size = user_list.size();
+			ASSERT_MSG(std_size == user_size, "Compare Length Error in SinglyLinkedListTest. (std_size:%d, user_size:%d)\n", std_size, user_size);
 		}
-
-		typename std::list<T>::iterator std_iter = std_list.begin();
-		typename SinglyLinkedList<T>::Iterator user_iter = user_list.get_iterator();
-				
-		for (int i = 0; i < user_size; i++) {
-			if (*std_iter != *user_iter) {
-				ASSERT_MSG(false, "Compare Value Error in SinglyLinkedListTest.\n");
+		
+		// Compare iterator
+		{
+			typename std::list<T>::iterator std_iter = std_list.begin();
+			typename SinglyLinkedList<T>::Iterator user_iter = user_list.get_iterator();
+			int user_size = user_list.size();
+			for (int i = 0; i < user_size; i++) {
+				ASSERT_MSG(*std_iter == *user_iter, "Compare Value Error in SinglyLinkedListTest.\n");
+				++std_iter, ++user_iter;
 			}
-			++std_iter, ++user_iter;
 		}
-
-		if (user_size > 0) {
+		
+		// Compare front/back
+		if (user_list.is_empty() == false) {
 			ASSERT_MSG(user_list.front() == std_list.front(), "front() Error in SinglyLinkedListTest.\n");
 			ASSERT_MSG(user_list.back() == std_list.back(), "back() Error in SinglyLinkedListTest.\n");
 		}
-		
-		return true;
 	}
 
 public:
@@ -58,6 +58,25 @@ public:
 			int value = RandomGenerator::generateRandomInt(MIN_INT32, MAX_INT32);
 			user_list.push_back(value);
 			std_list.push_back(value);
+
+			compareList(user_list, std_list);
+		}
+	}
+
+	static void pop_front_int() {
+		TEST_LOGGER("SinglyLinkedListTest::pop_front_int()");
+		SinglyLinkedList<int> user_list;
+		std::list<int> std_list;
+
+		for (int i = 0; i < TEST_CASE_NUM; i++) {
+			int value = RandomGenerator::generateRandomInt(MIN_INT32, MAX_INT32);
+			user_list.push_front(value);
+			std_list.push_front(value);
+		}
+
+		for (int i = 0; i < TEST_CASE_NUM; i++) {
+			user_list.pop_front();
+			std_list.pop_front();
 
 			compareList(user_list, std_list);
 		}

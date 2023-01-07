@@ -16,8 +16,8 @@ class SinglyLinkedList {
 	using Node = SinglyLinkedListNode<T>;
 private:
 	Node* _head, *_tail;
-	size_t _size;
 	_Alloc _allocator;
+	size_t _size;
 
 public:
 	SinglyLinkedList() :
@@ -48,8 +48,16 @@ public:
 		_size++;
 	}
 
+	void pop_front() {
+		ASSERT_MSG(_head != nullptr, "List is Empty.");
+		Node* tmp = _head;
+		_head = _head->next;
+		_allocator.deallocate(tmp, 1);
+		_size--;
+	}
+
 	T& back() {
-		ASSERT_MSG(_tail != nullptr, "List is Empty\n");
+		ASSERT_MSG(_tail != nullptr, "List is Empty.");
 		return _tail->value;
 	}
 
@@ -68,6 +76,8 @@ public:
 	}
 
 	size_t size() { return _size; }
+
+	bool is_empty() { return _size == 0; }
 
 	void clear() {
 		while (_head != nullptr) {
