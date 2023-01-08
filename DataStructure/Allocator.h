@@ -20,7 +20,7 @@ class DefaultAllocator {
 public:
 	DefaultAllocator() : _allocate_count(0) {}
 	~DefaultAllocator() {
-		ASSERT_MSG(_allocate_count == 0, "");		
+		ASSERT_MSG(_allocate_count == 0, "Memory Leak!!\n");		
 	}
 	T* allocate(size_t size) {
 		T* p = new T[size];
