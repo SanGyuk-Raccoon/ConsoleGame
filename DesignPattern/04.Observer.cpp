@@ -6,7 +6,7 @@
 	-> 객체가 변화할 때, 종속되어 있는 다른 객체들에게도 변화를 알려주는 방식
 
 */
-#if 1
+#if 0
 #include <stdio.h>
 #include <unordered_set>
 
