@@ -30,4 +30,37 @@ private:
 		}
 	}
 public:
+	static void push_back_int() {
+		TEST_LOGGER("VectorTest::push_front_int()");
+
+		Vector<int> user_vector;
+		std::vector<int> std_vector;
+
+		for (int i = 0; i < TEST_CASE_NUM; i++) {
+			int value = RandomGenerator::generateRandomInt(MIN_INT32, MAX_INT32);
+			user_vector.push_back(value);
+			std_vector.push_back(value);
+
+			compareVector(user_vector, std_vector);
+		}
+	}
+	static void push_back_ClassPointer() {
+		TEST_LOGGER("VectorTest::push_back_ClassPointer()");
+
+		Vector<TestClass*> user_vector;
+		std::vector<TestClass*> std_vector;
+
+		for (int i = 0; i < TEST_CASE_NUM; i++) {
+			int value = RandomGenerator::generateRandomInt(MIN_INT32, MAX_INT32);
+			TestClass* new_class = new TestClass(value);
+			user_vector.push_back(new_class);
+			std_vector.push_back(new_class);
+
+			compareVector(user_vector, std_vector);
+		}
+
+		for (int i = 0; i < TEST_CASE_NUM; i++) {
+			delete user_vector[i];
+		}
+	}
 };

@@ -3,5 +3,6 @@
 
 int main() {
 	//DataStructureTest::testQueue();
-	DataStructureTest::testSinglyLinkedList();
+	//DataStructureTest::testSinglyLinkedList();
+	DataStructureTest::testVector();
 }

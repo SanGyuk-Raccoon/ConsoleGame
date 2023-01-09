@@ -123,6 +123,11 @@ public:
 
 			compareList(user_list, std_list);
 		}
+
+		for (int i = 0; i < TEST_CASE_NUM; i++) {
+			delete user_list.front();
+			user_list.pop_front();
+		}
 	}
 };
 

@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include "LogManager.h"
 
-#define _DebugLog (0)
+#define _DebugLog (1)
 #if _DebugLog
 #define Print_Alloc_Log(p, size) printf("Alloc Log : \n\tAddr : %p\n\tSize : %d\n", p, size)
 #define Print_Dealloc_Log(p, size) printf("Dealloc Log : \n\tAddr : %p\n\tSize : %d\n", p, size)

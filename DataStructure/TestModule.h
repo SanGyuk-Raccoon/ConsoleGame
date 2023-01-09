@@ -1,6 +1,7 @@
 #pragma once
 #include "QueueTest.h"
 #include "SinglyLinkedListTest.h"
+#include "VectorTest.h"
 
 class DataStructureTest {
 public:
@@ -14,5 +15,9 @@ public:
 		SinglyLinkedListTest::pop_front_int();
 		SinglyLinkedListTest::clear_int();
 		SinglyLinkedListTest::push_front_ClassPointer();
+	}
+
+	static void testVector() {
+		VectorTest::push_back_int();
 	}
 };

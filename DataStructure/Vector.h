@@ -21,7 +21,7 @@ public:
 		_data = _allocator.allocate(_capa);
 	}
 	~Vector() {
-		allocator.deallocate(_data, _capa);
+		_allocator.deallocate(_data, _capa);
 	}
 
 	T& operator[](int index) {
@@ -32,7 +32,7 @@ public:
 		if (is_full()) {
 			resize();
 		}
-		data[_size] = value;
+		_data[_size] = value;
 		_size++;
 	}
 	T& front() {
