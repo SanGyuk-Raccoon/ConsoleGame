@@ -1,8 +1,8 @@
-#include "ConsoleUtils.h"
+#include "UtilModule.h"
 
 int main() {
-	SetCursorTest();
-
+	Cursor::getInstance();
+	OutputHandler::getInstance();
     return 0;
 }
 
