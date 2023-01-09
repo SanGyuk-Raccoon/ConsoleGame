@@ -30,7 +30,6 @@ bld/
 **/[Rr]eleases/
 **/x64/
 **/.vs/
-*.sln
 **/*.vcxproj
 **/*.vcxproj.*
 **/*.i
