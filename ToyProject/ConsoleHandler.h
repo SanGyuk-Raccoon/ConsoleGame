@@ -1,7 +1,7 @@
 
-class OutputHandler {
+class ConsoleHandler {
 private:
-	OutputHandler() = delete;
+	ConsoleHandler() = delete;
 
 public:
 	static HANDLE& getHandle() {
@@ -10,5 +10,10 @@ public:
 			handle = GetStdHandle(STD_OUTPUT_HANDLE);
 		}
 		return handle;
+	}
+
+	static void setConsoleSize(unsigned int width, unsigned int height) {
+	}
+	static void setTitle(const char* title) {
 	}
 };

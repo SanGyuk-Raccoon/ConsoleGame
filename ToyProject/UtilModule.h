@@ -1,4 +1,4 @@
 #include "UtilBase.h"
 #include <windows.h>
-#include "OutputHandler.h"
+#include "ConsoleHandler.h"
 #include "Cursor.h"
