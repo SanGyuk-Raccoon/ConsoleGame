@@ -10,7 +10,7 @@ public:
 		return cursor;
 	}
 
-	void setVisibleOption(bool visible);
-	void setPosition(int x, int y);
-	void setFontColor(ColorType font_color = ColorType::Gray, ColorType background_color = ColorType::Black);
+	void setVisibleOption(bool visiable);
+	void setPosition(unsigned int x, unsigned int y);
+	void setFontColor(Color font_color = Color::Gray, Color background_color = Color::Black);
 };
