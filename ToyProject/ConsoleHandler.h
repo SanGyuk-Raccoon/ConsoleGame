@@ -1,4 +1,3 @@
-
 class ConsoleHandler {
 private:
 	ConsoleHandler() = delete;
