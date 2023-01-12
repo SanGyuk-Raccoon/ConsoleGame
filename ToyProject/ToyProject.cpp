@@ -12,6 +12,7 @@ int main() {
 	Cursor::getInstance().setPosition(0, 1);
 	printf("Test");
 	
+	KeyHandler::getKey();
 
     return 0;
 }
