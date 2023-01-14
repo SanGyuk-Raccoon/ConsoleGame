@@ -11,7 +11,7 @@ enum class KeyEnum : char {
 
 class KeyHandler {
 private:
-	static bool isValidKey(char c);
+	static bool isValidKey(char& c);
 public:
 	static KeyEnum getKey();
 };
