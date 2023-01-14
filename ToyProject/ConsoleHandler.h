@@ -13,4 +13,5 @@ public:
 
 	static void setConsoleSize(unsigned int width, unsigned int height);
 	static void setTitle(const char* title);
+	static void setFontSize(Uint16 width, Uint16 height);
 };

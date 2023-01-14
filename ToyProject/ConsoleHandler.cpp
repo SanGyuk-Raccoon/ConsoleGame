@@ -21,3 +21,11 @@ void ConsoleHandler::setTitle(const char* title) {
 	}
 	system(buf);
 }
+
+void ConsoleHandler::setFontSize(Uint16 width, Uint16 height) {
+	CONSOLE_FONT_INFOEX cfi;
+	cfi.cbSize = sizeof(cfi);
+	cfi.dwFontSize.X = width;
+	cfi.dwFontSize.Y = height;
+	SetCurrentConsoleFontEx(ConsoleHandler::getHandle(), FALSE, &cfi);
+}

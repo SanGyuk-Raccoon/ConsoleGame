@@ -11,6 +11,6 @@ public:
 	}
 	
 	void setVisibleOption(bool visiable);
-	void setPosition(unsigned int x, unsigned int y);
+	void setPosition(Uint16 x, Uint16 y);
 	void setFontColor(Color font_color = Color::Gray, Color background_color = Color::Black);
 };

@@ -2,6 +2,7 @@
 #include <stdio.h>
 
 int main() {
+	ConsoleHandler::setFontSize(10, 10);
 	ConsoleHandler::setConsoleSize(120, 40);
 	ConsoleHandler::setTitle("Test!!!");
 

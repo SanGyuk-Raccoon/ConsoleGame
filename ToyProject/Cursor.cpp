@@ -9,8 +9,8 @@ void Cursor::setVisibleOption(bool visiable) {
 	console_cursor.dwSize = 1;
 	SetConsoleCursorInfo(ConsoleHandler::getHandle(), &console_cursor);
 }
-void Cursor::setPosition(unsigned int x, unsigned int y) {
-	SetConsoleCursorPosition(ConsoleHandler::getHandle(), { (short)x, (short)y });
+void Cursor::setPosition(Uint16 x, Uint16 y) {
+	SetConsoleCursorPosition(ConsoleHandler::getHandle(), { static_cast<SHORT>(x), static_cast<SHORT>(y) });
 }
 void Cursor::setFontColor(Color font_color, Color background_color) {
 	SetConsoleTextAttribute(ConsoleHandler::getHandle(), (int)font_color | (int)background_color << 4);
