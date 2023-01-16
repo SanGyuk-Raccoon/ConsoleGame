@@ -7,6 +7,7 @@ enum class KeyEnum : char {
 	Down = 80,
 	Left = 75,
 	Right = 77,
+	Max = 78
 };
 
 class KeyHandler {
