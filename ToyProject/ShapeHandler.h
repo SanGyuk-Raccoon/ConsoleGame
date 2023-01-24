@@ -1,12 +1,15 @@
 class ShapeHandler {
 private:
-	void(*move_func[(unsigned int)KeyEnum::Max])() ;
-public:
-	ShapeHandler();
-	~ShapeHandler();
-	void move(KeyEnum key);
+	IShape* shape;
+	void (ShapeHandler::*move_func[(Uint8)KeyEnum::Max])();
 	void moveLeft();
 	void moveRight();
 	void moveDown();
 	void moveSpaceBar();
+
+public:
+	ShapeHandler();
+	~ShapeHandler() {}
+	void move(KeyEnum key);
+	void setShape(IShape* shape);
 };
