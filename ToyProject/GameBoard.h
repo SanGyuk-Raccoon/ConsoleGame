@@ -1,5 +1,5 @@
-constexpr Uint32 BOARD_HEIGHT = 120;
-constexpr Uint32 BOARD_WIDTH = 40;
+constexpr Uint32 BOARD_HEIGHT = 40;
+constexpr Uint32 BOARD_WIDTH = 25;
 
 class GameBoard {
 private:
