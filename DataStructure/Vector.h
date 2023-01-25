@@ -43,6 +43,9 @@ public:
 		ASSERT_MSG(_size > 0, "Panic in back() : Vector is Empty");
 		return _data[_size - 1];
 	}
+	void pop_back() {
+		_size--;
+	}
 	bool is_empty() { return _size == 0; }
 	bool is_full() { return _size == _capa; }
 	void clear() {

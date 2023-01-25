@@ -19,5 +19,7 @@ public:
 
 	static void testVector() {
 		VectorTest::push_back_int();
+		VectorTest::push_back_ClassPointer();
+		VectorTest::pop_back_int();
 	}
 };
