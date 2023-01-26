@@ -63,4 +63,23 @@ public:
 			delete user_vector[i];
 		}
 	}
+	static void pop_back_int() {
+		TEST_LOGGER("VectorTest::pop_back_int()");
+
+		Vector<int> user_vector;
+		std::vector<int> std_vector;
+
+		for (int i = 0; i < TEST_CASE_NUM; i++) {
+			int value = RandomGenerator::generateRandomInt(MIN_INT32, MAX_INT32);
+			user_vector.push_back(value);
+			std_vector.push_back(value);
+		}
+
+		for (int i = 0; i < TEST_CASE_NUM; i++) {
+			user_vector.pop_back();
+			std_vector.pop_back();
+
+			compareVector(user_vector, std_vector);
+		}
+	}
 };
