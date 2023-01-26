@@ -129,7 +129,7 @@ int main() {
 /*
 	아래는 조금 다른 방식으로 구현해보았다.
 */
-#if 1
+#if 0
 // Decorator
 #include <stdio.h>
 #include <string>
