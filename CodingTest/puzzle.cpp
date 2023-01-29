@@ -103,7 +103,7 @@ int generateRandomInt(int min, int max) {
 }
 
 void shuffle(Puzzle& puzzle) {
-	constexpr unsigned int shuffle_count = 500;
+	constexpr unsigned int shuffle_count = 1000;
 	for (unsigned int i = 0; i < shuffle_count; i++) {
 		Direction dir = static_cast<Direction>(generateRandomInt(0, 3));
 		puzzle.move(dir);
@@ -192,6 +192,53 @@ public:
 HashNode NodeAllocator::_node_pool[NODE_COUNT];
 unsigned int NodeAllocator::_answer_index = 0;
 
+
+PuzzleKey getPuzzleKey(Puzzle& puzzle) {
+	PuzzleKey key(0);
+	for (int x = 0; x < 3; x++) {
+		for (int y = 0; y < 3; y++) {
+			key <<= 4;
+			key += puzzle.puzzle[x][y];
+		}
+	}
+	return key;
+}
+void decodePuzzleKey(PuzzleKey key, Puzzle& ret_puzzle) {
+	for (int x = 2; x >= 0; x--) {
+		for (int y = 2; y >= 0; y--) {
+			unsigned int value = key & 0xf;
+			key >>= 4;
+			ret_puzzle.puzzle[x][y] = value;
+			if (value == 0) {
+				ret_puzzle.x = x;
+				ret_puzzle.y = y;
+			}
+		}
+	}
+}
+
+class CandidateQueue {
+	PuzzleKey _candidate_key[NODE_COUNT];
+	MovingHistory _candidate_history[NODE_COUNT];
+
+	unsigned int _read_point, _write_point;
+
+public:
+	inline void addCandidate(PuzzleKey& key, MovingHistory& history) {
+		_candidate_key[_write_point] = key;
+		_candidate_history[_write_point] = history;
+		_write_point++;
+	}
+	inline void getCandidate(PuzzleKey& ret_key, MovingHistory& ret_history) {
+		ret_key = _candidate_key[_read_point];
+		ret_history = _candidate_history[_read_point];
+		_read_point++;
+	}
+	inline bool isEmpty() {
+		return _read_point == _write_point;
+	}
+};
+
 class HashMap {
 private:
 	static constexpr unsigned int BUCKET_SIZE = 100001;
@@ -200,12 +247,46 @@ private:
 		return key % BUCKET_SIZE;
 	}
 
+	CandidateQueue candidate_queue;
 	HashNode* _bucket[BUCKET_SIZE];
 public:
 	HashMap() {
 		memset(_bucket, 0, sizeof(HashNode*) * BUCKET_SIZE);
+		findAllAnswer();
 	}
 	~HashMap() {}
+
+	void findAllAnswer() {
+		// input default puzzle
+		Puzzle default_puzzle;
+		PuzzleKey default_key = getPuzzleKey(default_puzzle);
+		MovingHistory default_history;
+		add(default_key, default_history);
+		candidate_queue.addCandidate(default_key, default_history);
+
+		// find all case by BFS
+		while (!candidate_queue.isEmpty()) {
+			PuzzleKey candidate_key;
+			MovingHistory candidate_history;
+			candidate_queue.getCandidate(candidate_key, candidate_history);
+			Puzzle candidate_puzzle;
+			decodePuzzleKey(candidate_key, candidate_puzzle);
+
+			for (int dir = 0; dir < 4; dir++) {
+				Direction direction = static_cast<Direction>(dir);
+				Puzzle next_puzzle = candidate_puzzle;
+				MovingHistory next_history = candidate_history;
+
+				next_puzzle.move(direction);
+				next_history.addHistory(direction);
+				PuzzleKey next_key = getPuzzleKey(next_puzzle);
+
+				if (add(next_key, next_history)) {
+					candidate_queue.addCandidate(next_key, next_history);
+				}
+			}
+		}
+	}
 
 	bool add(PuzzleKey& key, MovingHistory& moving_history) {
 		unsigned int hash = hash_func(key);
@@ -248,51 +329,7 @@ public:
 	}
 };
 
-class CandidateQueue {
-	PuzzleKey _candidate_key[NODE_COUNT];
-	MovingHistory _candidate_history[NODE_COUNT];
 
-	unsigned int _read_point, _write_point;
-
-public:
-	inline void addCandidate(PuzzleKey& key, MovingHistory& history) {
-		_candidate_key[_write_point] = key;
-		_candidate_history[_write_point] = history;
-		_write_point++;
-	}
-	inline void getCandidate(PuzzleKey& ret_key, MovingHistory& ret_history) {
-		ret_key = _candidate_key[_read_point];
-		ret_history = _candidate_history[_read_point];
-		_read_point++;
-	}
-	inline bool isEmpty() {
-		return _read_point == _write_point;
-	}
-};
-
-PuzzleKey getPuzzleKey(Puzzle& puzzle) {
-	PuzzleKey key(0);
-	for (int x = 0; x < 3; x++) {
-		for (int y = 0; y < 3; y++) {
-			key <<= 4;
-			key += puzzle.puzzle[x][y];
-		}
-	}
-	return key;
-}
-void decodePuzzleKey(PuzzleKey key, Puzzle& ret_puzzle) {
-	for (int x = 2; x >= 0; x--) {
-		for (int y = 2; y >= 0; y--) {
-			unsigned int value = key & 0xf;
-			key >>= 4;
-			ret_puzzle.puzzle[x][y] = value;
-			if (value == 0) {
-				ret_puzzle.x = x;
-				ret_puzzle.y = y;
-			}
-		}
-	}
-}
 void solveImp(Puzzle& problem_puzzle, MovingHistory& moving_history) {
 	while (!moving_history.isEmpty()) {
 		Direction recent_dir = moving_history.getRecentMove();
@@ -313,57 +350,14 @@ void solveImp(Puzzle& problem_puzzle, MovingHistory& moving_history) {
 	}
 }
 
+static HashMap answer_hash_map;
+
 void solve(Puzzle& puzzle) {
-	static bool initialized = false;
-	static HashMap answer_hash_map;
-	static CandidateQueue candidate_queue;
-
-	// initialized
-	if (!initialized) {
-		initialized = true;
-		Puzzle default_puzzle;
-		PuzzleKey default_key = getPuzzleKey(default_puzzle);
-		MovingHistory default_history;
-		answer_hash_map.add(default_key, default_history);
-		candidate_queue.addCandidate(default_key, default_history);
-	}
-
 	// find Answer
 	PuzzleKey problem_key = getPuzzleKey(puzzle);
 	MovingHistory moving_history;
 	// #1 찾아놓은 것 중에 이미 정답이 있는지 확인
-	if (!answer_hash_map.find(problem_key, moving_history)) {
-		// #2 위에서 찾을 수 없었다면, 다시 탐색을 시작한다.
-		while (!candidate_queue.isEmpty()) {
-			PuzzleKey candidate_key;
-			MovingHistory candidate_history;
-			candidate_queue.getCandidate(candidate_key, candidate_history);
-			Puzzle candidate_puzzle;
-			decodePuzzleKey(candidate_key, candidate_puzzle);
-
-			bool is_find = false;
-			for (int dir = 0; dir < 4; dir++) {
-				Direction direction = static_cast<Direction>(dir);
-				Puzzle next_puzzle = candidate_puzzle;
-				MovingHistory next_history = candidate_history;
-
-				next_puzzle.move(direction);
-				next_history.addHistory(direction);
-				PuzzleKey next_key = getPuzzleKey(next_puzzle);
-
-				if (answer_hash_map.add(next_key, next_history)) {
-					candidate_queue.addCandidate(next_key, next_history);
-				}
-
-				// direction for문을 전부 끝내고 break; 할 수 있도록 is_find 사용
-				if (next_key == problem_key) {
-					is_find = true;
-					moving_history = next_history;
-				}
-			}
-			if (is_find) break;
-		}
-	}
+	answer_hash_map.find(problem_key, moving_history);
 
 	// move by Moving History
 	solveImp(puzzle, moving_history);
