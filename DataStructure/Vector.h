@@ -39,6 +39,15 @@ public:
 		ASSERT_MSG(_size > 0, "Panic in front() : Vector is Empty");
 		return _data[0];
 	}
+	void pop_front() {
+		// 일단 무식하게 복사하는 걸로 구현해놓음. 이후에 수정 필요.
+		T* tmp = _allocator.allocate(_capa);
+		_size--;
+		memcpy(tmp, _data + 1, sizeof(T) * _size);
+		_allocator.deallocate(_data, _capa);
+		_data = tmp;
+	}
+
 	T& back() {
 		ASSERT_MSG(_size > 0, "Panic in back() : Vector is Empty");
 		return _data[_size - 1];

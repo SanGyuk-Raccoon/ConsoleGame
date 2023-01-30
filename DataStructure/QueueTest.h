@@ -19,19 +19,18 @@ private:
 	}
 
 public:
-	static bool test_Push_int() {
-		{
-			std::queue<int> std_queue;
-			Queue<int> user_queue;
+	static void test_Push_int() {
+		std::queue<int> std_queue;
+		Queue<int> user_queue;
 
-			for (int i = 0; i < TEST_CASE_NUM; i++) {
-				int value = RandomGenerator::generateRandomInt(MIN_INT32, MAX_INT32);
-				std_queue.push(value);
-				user_queue.push(value);
-			}
+		for (int i = 0; i < TEST_CASE_NUM; i++) {
+			int value = RandomGenerator::generateRandomInt(MIN_INT32, MAX_INT32);
+			std_queue.push(value);
+			user_queue.push(value);
 		}
 
-		printf("Queue Test - Push(int) : SUCCESS\n");
-		return true;
+		compareQueue(std_queue, user_queue) ?
+			printf("Queue Test - Push(int) : SUCCESS\n") :
+			printf("Queue Test - Push(int) : Fail\n");
 	}
 };

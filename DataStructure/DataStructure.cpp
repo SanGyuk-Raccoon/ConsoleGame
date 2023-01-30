@@ -2,7 +2,7 @@
 #include "TestModule.h"
 
 int main() {
-	//DataStructureTest::testQueue();
+	DataStructureTest::testQueue();
 	//DataStructureTest::testSinglyLinkedList();
-	DataStructureTest::testVector();
+	//DataStructureTest::testVector();
 }
