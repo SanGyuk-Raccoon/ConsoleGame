@@ -11,21 +11,53 @@ private:
 	T* _data;
 	size_t _capa, _size;
 	CompareFunc _func;
-	
+	_Allocator _allocator;
+
 	static bool default_compare_func(T& left, T& right) {
-		return left <= right;
+		return left < right;
 	}
-	bool is_full();
-	void resize();
+	bool is_full() {
+		return _capa == _size;
+	}
+	void resize() {
+		// 배열이 가득 차면 늘려주자.
+	}
+	void swap(T& left, T& right) {
+		T tmp = left;
+		left = right;
+		right = tmp;
+	}
+	void heapify(size_t index) {
+		// heapify 이해 필요
+	}
 
 public:
-	PriorityQueue() {
-		_func = default_compare_func;
+	PriorityQueue(CompareFunc func = default_compare_func): _capa(1<<5), _size(0), _func(func) {
+		_data = _allocator.allocate(_capa);
 	}
 
-	void add(T& value);
-	T& top();
-	void pop();
-	size_t size();
-	bool is_empty();
+	void enqueue(T& value) {
+		if (is_full()) {
+			resize();
+		}
+
+		size_t i = ++_size;
+		_data[i] = value;
+
+		if (i == 1) return;
+		while (_func(_data[i / 2], _data[i])) {
+			swap(_data[i / 2], _data[i]));
+			i /= 2;
+		}
+	}
+	T& peek() {
+		ASSERT_MSG(is_empty() == false, "PriorityQueue::peek() : Priority Queue is Empty!");
+		return _data[1];
+	}
+	// heapify 구현 후, 구현하기.
+	T& dequeue();
+	size_t size() { return _size; }
+	bool is_empty() {
+		return _size == 0;
+	}
 };
