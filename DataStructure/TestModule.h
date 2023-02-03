@@ -2,7 +2,7 @@
 #include "QueueTest.h"
 #include "SinglyLinkedListTest.h"
 #include "VectorTest.h"
-
+#include "PriorityQueueTest.h"
 class DataStructureTest {
 public:
 	static void testQueue() {
@@ -21,5 +21,9 @@ public:
 		VectorTest::push_back_int();
 		VectorTest::push_back_ClassPointer();
 		VectorTest::pop_back_int();
+	}
+
+	static void testPQ() {
+		PriorityQueueTest::test_Push_int();
 	}
 };

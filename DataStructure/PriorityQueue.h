@@ -1,5 +1,6 @@
 #pragma once
 #include "Allocator.h"
+#include <memory.h>
 
 // PQ를 만들어보자.
 // Heap을 구현해본적이 없어서 해보고 싶었던 자료구조.
@@ -20,7 +21,11 @@ private:
 		return _capa == _size;
 	}
 	void resize() {
-		// 배열이 가득 차면 늘려주자.
+		T* tmp = _allocator.allocate(_capa << 1);
+		memcpy(tmp, _data, _capa);
+		_allocator.deallocate(_data, _capa);
+		_capa <<= 1;
+		_data = tmp;
 	}
 	void swap(T& left, T& right) {
 		T tmp = left;
@@ -28,34 +33,56 @@ private:
 		right = tmp;
 	}
 	void heapify(size_t index) {
-		// heapify 이해 필요
+		size_t cur_index(index);
+		size_t left_child_index(0), right_child_index(0);
+		
+		while (left_child_index = 2 * cur_index + 1 < _size) {
+			size_t changed_child_index = left_child_index;
+			if (right_child_index < _size && _func(_data[left_child_index], _data[right_child_index])) {
+				changed_child_index = right_child_index;
+			}
+
+			if (_func(_data[cur_index], _data[changed_child_index])) {
+				swap(_data[cur_index], _data[changed_child_index]);
+				cur_index = changed_child_index;
+			}
+			else {
+				break;
+			}
+		}
 	}
 
 public:
 	PriorityQueue(CompareFunc func = default_compare_func): _capa(1<<5), _size(0), _func(func) {
 		_data = _allocator.allocate(_capa);
 	}
-
+	~PriorityQueue() {
+		_allocator.deallocate(_data, _capa);
+	}
 	void enqueue(T& value) {
 		if (is_full()) {
 			resize();
 		}
+		size_t cur_index = _size++;
+		size_t parent_index = 0;
+		_data[cur_index] = value;
 
-		size_t i = ++_size;
-		_data[i] = value;
-
-		if (i == 1) return;
-		while (_func(_data[i / 2], _data[i])) {
-			swap(_data[i / 2], _data[i]));
-			i /= 2;
+		while (cur_index > 0 && _func(_data[parent_index = (cur_index - 1) / 2], _data[cur_index])) {
+			swap(_data[parent_index], _data[cur_index]);
+			cur_index = parent_index;
 		}
 	}
 	T& peek() {
 		ASSERT_MSG(is_empty() == false, "PriorityQueue::peek() : Priority Queue is Empty!");
-		return _data[1];
+		return _data[0];
 	}
 	// heapify 구현 후, 구현하기.
-	T& dequeue();
+	T& dequeue() {
+		_size--;
+		swap(_data[0], _data[_size]);
+		heapify(0);
+		return _data[_size];
+	}
 	size_t size() { return _size; }
 	bool is_empty() {
 		return _size == 0;
